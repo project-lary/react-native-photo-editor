@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">PhotoEditor</string>
     <string name="title_activity_photo_editor">PhotoEditorActivity</string>
-    <string name="done">Done</string>
+    <string name="done">Fertig</string>
     <string name="save">Save</string>
     <string name="clear_all">Clear All</string>
     <string name="camera">Camera</string>
@@ -26,7 +26,7 @@
     <string name="ic_crop">&#xf565;</string>
     <string name="choose_from_gallery">Choose From Gallery</string>
     <string name="choose_from_camera">Choose From Camera</string>
-    <string name="undo">Undo</string>
-    <string name="erase">Erase</string>
+    <string name="undo">Rückgängig</string>
+    <string name="erase">Radieren</string>
 
 </resources>

@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
@@ -284,7 +285,7 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
                 clearAllTextTextView.setVisibility(View.INVISIBLE);
             }
             if (hiddenControls.get(i).toString().equalsIgnoreCase("crop")) {
-
+                addCropTextView.setVisibility(View.INVISIBLE);
             }
             if (hiddenControls.get(i).toString().equalsIgnoreCase("draw")) {
                 addPencil.setVisibility(View.INVISIBLE);
@@ -745,6 +746,11 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
         System.out.println(selectedImagePath);
         Uri uri = Uri.fromFile(new File(selectedImagePath));
         UCrop.Options options = new UCrop.Options();
+
+        int mainCropColor = Color.parseColor("#8E2E0B");
+        options.setToolbarColor(mainCropColor);
+        // setActiveControlWidgeColor
+        options.setActiveWidgetColor(mainCropColor);
         options.setCompressionFormat(Bitmap.CompressFormat.JPEG);
         options.setCompressionQuality(100);
         options.setCircleDimmedLayer(cropperCircleOverlay);
@@ -759,18 +765,10 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
 
 
         UCrop uCrop = UCrop
-                .of(uri, Uri.fromFile(new File(this.getTmpDir(this), UUID.randomUUID().toString() + ".jpg")))
+                .of(uri, Uri.fromFile(new File(selectedImagePath)))
                 .withOptions(options);
 
         uCrop.start(this);
-    }
-
-
-    private String getTmpDir(Activity activity) {
-        String tmpDir = activity.getCacheDir() + "/react-native-photo-editor";
-        new File(tmpDir).mkdir();
-
-        return tmpDir;
     }
 
     @Override
@@ -780,7 +778,6 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
                 final Uri resultUri = UCrop.getOutput(data);
                 if (resultUri != null) {
                     try {
-                        selectedImagePath = resultUri.toString();
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver() , resultUri);
                         photoEditImageView.setImageBitmap(bitmap);
                     } catch (Exception ex) {
